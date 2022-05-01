@@ -1,0 +1,25 @@
+
+[package]
+name = "solana-donation-account"
+version = "0.0.1"
+description = "Crypton Studio solana donation account"
+authors = ["Ehsan Shaghaei","Solana Maintainers <maintainers@solana.com>"]
+repository = "https://github.com/Ehsan2754/solana-donation-account"
+license = "Apache-2.0"
+edition = "2021"
+
+[features]
+no-entrypoint = []
+
+[dependencies]
+borsh = "0.7.1"
+borsh-derive = "0.8.1"
+solana-program = "=1.6.6"
+
+[dev-dependencies]
+solana-program-test = "=1.6.6"
+solana-sdk = "=1.6.6"
+
+[lib]
+name = "cryptonstudio"
+crate-type = ["cdylib", "lib"]

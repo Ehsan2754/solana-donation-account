@@ -1,6 +1,6 @@
 use borsh::{BorshDeserialize, BorshSerialize};
 use solana_program::{
-    log::sol_log_compute_units,
+    // log::sol_log_compute_units,
     account_info::{next_account_info, AccountInfo},
     entrypoint,
     entrypoint::ProgramResult,
@@ -11,9 +11,9 @@ use solana_program::{
 
 /// Define the type of state stored in accounts
 #[derive(BorshSerialize, BorshDeserialize, Debug)]
-pub struct GreetingAccount {
-    /// number of greetings
-    pub txt: String,
+pub struct DonationAccount {
+    /// number of Donatings
+    pub counter: u32,
     
 }
 
@@ -24,7 +24,7 @@ entrypoint!(process_instruction);
 pub fn process_instruction(
     program_id: &Pubkey, // Public key of the account the cryptonstudio program was loaded into
     accounts: &[AccountInfo], // The account to say cryptonstudio to
-    instruction_data: &[u8], // Ignored, all cryptonstudio instructions are hellos
+    _instruction_data: &[u8], // Ignored, all cryptonstudio instructions are hellos
 ) -> ProgramResult {
     msg!("solana-donation-account Rust program entrypoint");
 
@@ -36,23 +36,17 @@ pub fn process_instruction(
 
     // The account must be owned by the program in order to modify its data
     if account.owner != program_id {
-        msg!("Greeted account does not have the correct program id");
+        msg!("Donated account does not have the correct program id");
         return Err(ProgramError::IncorrectProgramId);
     }
 
-    msg!("Start instruction decode");
-    let message = GreetingAccount::try_from_slice(instruction_data).map_err(|err| {
-      msg!("Receiving message as string utf8 failed, {:?}", err);
-      ProgramError::InvalidInstructionData  
-    })?;
-    msg!("Greeting passed to program is {:?}", message);
 
-    let data = &mut &mut account.data.borrow_mut();
-    msg!("Start save instruction into data");
-    data[..instruction_data.len()].copy_from_slice(&instruction_data);
+    // Increment and store the number of times the account has been donated
+    let mut donating_account = DonationAccount::try_from_slice(&account.data.borrow())?;
+    donating_account.counter += 1;
+    donating_account.serialize(&mut &mut account.data.borrow_mut()[..])?;
 
-    sol_log_compute_units();
-    msg!("Was sent message {}!", message.txt);
+    msg!("Greeted {} time(s)!", donating_account.counter);
 
     Ok(())
 }
@@ -86,21 +80,21 @@ mod test {
         let accounts = vec![account];
 
         assert_eq!(
-            GreetingAccount::try_from_slice(&accounts[0].data.borrow())
+            DonationAccount::try_from_slice(&accounts[0].data.borrow())
                 .unwrap()
                 .counter,
             0
         );
         process_instruction(&program_id, &accounts, &instruction_data).unwrap();
         assert_eq!(
-            GreetingAccount::try_from_slice(&accounts[0].data.borrow())
+            DonationAccount::try_from_slice(&accounts[0].data.borrow())
                 .unwrap()
                 .counter,
             1
         );
         process_instruction(&program_id, &accounts, &instruction_data).unwrap();
         assert_eq!(
-            GreetingAccount::try_from_slice(&accounts[0].data.borrow())
+            DonationAccount::try_from_slice(&accounts[0].data.borrow())
                 .unwrap()
                 .counter,
             2

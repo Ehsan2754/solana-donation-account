@@ -29,7 +29,7 @@
     "json-to-pretty-yaml": "^1.2.2",
     "mkdirp": "^1.0.4",
     "mz": "^2.7.0",
-    "yaml": "^1.10.2"
+    "yaml": "^2.0.1"
   },
   "devDependencies": {
     "@tsconfig/recommended": "^1.0.1",

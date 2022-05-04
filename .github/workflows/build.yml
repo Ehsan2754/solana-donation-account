@@ -1,2 +1,7 @@
 - name: Solana Anchor Build
+  # You may pin to the exact commit or the version.
+  # uses: mrgnlabs/anchor-build-action@a93a43f7781b66d140873e80bfd64ee53119b948
   uses: mrgnlabs/anchor-build-action@v0.3
+  with:
+    # anchor build arguments
+    args: # optional, default is 

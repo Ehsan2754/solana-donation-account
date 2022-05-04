@@ -37,7 +37,7 @@ npm install -g yarn
 ```
  npm i -g @project-serum/anchor-cli
 ```
-> You may run ```doctor.sh``` to check if the all dependencies are installed or install all dependencies on debiab based linux systems.
+> You may run ```doctor.sh``` to check if the all dependencies are installed or install all dependencies on debian based linux systems.
 
 ### **Usage**
 

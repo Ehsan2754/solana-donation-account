@@ -1,0 +1,2 @@
+- name: Solana Anchor Build
+  uses: mrgnlabs/anchor-build-action@v0.3

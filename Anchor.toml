@@ -1,0 +1,14 @@
+[features]
+seeds = false
+[programs.localnet]
+donation_solana = "DTKhjEq6Fib97ikMgwYsDgMLE76w2LtFgRNxmGMwsoEQ"
+
+[registry]
+url = "https://anchor.projectserum.com"
+
+[provider]
+cluster = "localnet"
+wallet = "~/.config/solana/id.json"
+
+[scripts]
+test = "yarn run ts-mocha -p ./tsconfig.json tests/**/*.ts"
